@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">MovieApp</string>
+    <string name="action_about">Sobre</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="movie_description">Descrição</string>
+    <string name="movie_name">Nome</string>
+    <string name="movie_rating">Qual sua nota para este filme?</string>
+    <string name="txMovieName">Nome do filme</string>
+    <string name="txMovieDescription">Descrição do filme</string>
+    <string name="actions_save">Salvar</string>
+    <string name="search">Buscar filme</string>
+    <string name="movie_image">URL da imagem</string>
+    <string name="action_request_movies">Buscar filmes da API</string>
+</resources>
