@@ -8,23 +8,27 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import campagnolo.cantiero.movieapp.services.dao.MovieDAO
 import campagnolo.cantiero.movieapp.utils.populateDB
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 @Database(entities = [Movie::class], version = 1)
-abstract class AppDatabase: RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
     abstract fun movieDao(): MovieDAO
 
     companion object {
-        private var INSTANCE: AppDatabase? = null
+        private var database: AppDatabase? = null
+        private var inMemoryDatabase: AppDatabase? = null
+
         private const val DB_NAME = "movies.db"
 
+        @OptIn(DelicateCoroutinesApi::class)
         fun getDatabase(context: Context): AppDatabase {
-            if (INSTANCE == null) {
+            if (database == null) {
                 synchronized(AppDatabase::class.java) {
-                    if (INSTANCE == null) {
-                        INSTANCE = Room.databaseBuilder(
+                    if (database == null) {
+                        database = Room.databaseBuilder(
                             context.applicationContext,
                             AppDatabase::class.java,
                             DB_NAME
@@ -33,14 +37,29 @@ abstract class AppDatabase: RoomDatabase() {
                                 super.onCreate(db)
 
                                 Log.d("MoviesDatabase", "populating with data...")
-                                GlobalScope.launch(Dispatchers.IO) { populateDB(INSTANCE) }
+                                GlobalScope.launch(Dispatchers.IO) { populateDB(database) }
                             }
-                        }).allowMainThreadQueries().build()
+                        }).build()
                     }
                 }
             }
 
-            return INSTANCE!!
+            return database!!
+        }
+
+        fun getInMemoryDatabase(context: Context): AppDatabase {
+            if (inMemoryDatabase == null) {
+                synchronized(AppDatabase::class.java) {
+                    if (inMemoryDatabase == null) {
+                        inMemoryDatabase = Room.inMemoryDatabaseBuilder(
+                            context.applicationContext,
+                            AppDatabase::class.java
+                        ).build()
+                    }
+                }
+            }
+
+            return inMemoryDatabase!!
         }
     }
 }

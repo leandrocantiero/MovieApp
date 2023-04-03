@@ -74,14 +74,13 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
+//    testmplementation "androidx.room:room-testing:$room_version"
+//    androidTestImplementation "androidx.room:room-testing:$room_version"
 
     // Koin Components
     def koin_version = "3.4.0"
     implementation "io.insert-koin:koin-core:$koin_version"
     implementation "io.insert-koin:koin-android:$koin_version"
-//    implementation "org.koin:koin-android:$koin_version"
-//    implementation "org.koin:koin-androidx-scope:$koin_version"
-//    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
 
     // Tests
     testImplementation 'junit:junit:4.13.2'

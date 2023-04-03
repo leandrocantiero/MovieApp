@@ -1,5 +1,6 @@
 package campagnolo.cantiero.movieapp.services.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import campagnolo.cantiero.movieapp.model.Movie
 
