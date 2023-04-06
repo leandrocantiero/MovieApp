@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@+id/nav_movie">
+
+    <fragment
+        android:id="@+id/nav_movie"
+        android:name="campagnolo.cantiero.movieapp.view.movie.MovieFragment"
+        android:label="@string/menu_movies"
+        tools:layout="@layout/fragment_movie" >
+        <action
+            android:id="@+id/action_nav_movie_to_nav_book"
+            app:destination="@id/nav_book" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_book"
+        android:name="campagnolo.cantiero.movieapp.view.book.BookFragment"
+        android:label="@string/menu_book"
+        tools:layout="@layout/fragment_book" >
+        <action
+            android:id="@+id/action_nav_book_to_nav_movie"
+            app:destination="@id/nav_movie" />
+    </fragment>
+</navigation>

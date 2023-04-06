@@ -1,6 +1,6 @@
 package campagnolo.cantiero.movieapp.services.api.listener
 
-interface MovieListener {
+interface ApiListener {
     fun onFail(message: String?)
 
     fun onSuccess()

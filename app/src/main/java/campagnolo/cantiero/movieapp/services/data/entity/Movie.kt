@@ -1,4 +1,4 @@
-package campagnolo.cantiero.movieapp.model
+package campagnolo.cantiero.movieapp.services.data.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

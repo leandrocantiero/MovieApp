@@ -1,7 +1,7 @@
-package campagnolo.cantiero.movieapp.services.repository
+package campagnolo.cantiero.movieapp.services.data.repository
 
-import campagnolo.cantiero.movieapp.model.Movie
-import campagnolo.cantiero.movieapp.services.api.listener.MovieListener
+import campagnolo.cantiero.movieapp.services.data.entity.Movie
+import campagnolo.cantiero.movieapp.services.api.listener.ApiListener
 
 interface IMovieRepository {
     suspend fun save(movie: Movie)
@@ -14,5 +14,5 @@ interface IMovieRepository {
 
     suspend fun remove(movie: Movie)
 
-    suspend fun getAllFromApi(listener: MovieListener)
+    fun getAllFromApi(listener: ApiListener)
 }

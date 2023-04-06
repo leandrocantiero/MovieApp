@@ -8,26 +8,12 @@
     android:orientation="vertical"
     android:paddingHorizontal="4dp">
 
-    <ImageView
-        android:id="@+id/ivImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:adjustViewBounds="true"
-        android:maxWidth="150sp"
-        android:maxHeight="150sp"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-
-        tools:srcCompat="@tools:sample/avatars" />
-
     <TextView
-        android:id="@+id/tvRating"
+        android:id="@+id/tvAuthor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:text="@string/movie_rating"
+        android:text="@string/book_author"
         android:textSize="18sp"
 
         android:textStyle="bold"
@@ -35,19 +21,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <TextView
-        android:id="@+id/tvName"
+        android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:text="@string/movie_name"
+        android:text="@string/book_title"
         android:textSize="22sp"
 
         android:textStyle="bold"
 
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvRating" />
+        app:layout_constraintTop_toBottomOf="@id/tvAuthor" />
 
     <TextView
         android:id="@+id/tvDescription"
@@ -56,12 +41,10 @@
 
         android:layout_marginVertical="15sp"
 
-        android:text="@string/movie_description"
+        android:text="@string/book_description"
         android:textSize="20sp"
         android:textStyle="normal"
-        android:ems="11"
-
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvName" />
+        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,9 +1,9 @@
 package campagnolo.cantiero.movieapp
 
 import androidx.test.core.app.ApplicationProvider
-import campagnolo.cantiero.movieapp.model.AppDatabase
-import campagnolo.cantiero.movieapp.model.Movie
-import campagnolo.cantiero.movieapp.services.dao.MovieDAO
+import campagnolo.cantiero.movieapp.services.data.AppDatabase
+import campagnolo.cantiero.movieapp.services.data.entity.Movie
+import campagnolo.cantiero.movieapp.services.data.dao.MovieDAO
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert

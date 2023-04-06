@@ -1,70 +1,69 @@
 package campagnolo.cantiero.movieapp.view.movie
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.Menu
-import android.view.MenuItem
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import campagnolo.cantiero.movieapp.model.Movie
 import campagnolo.cantiero.movieapp.R
+import campagnolo.cantiero.movieapp.databinding.FragmentMovieBinding
+import campagnolo.cantiero.movieapp.services.data.entity.Movie
 import campagnolo.cantiero.movieapp.utils.MovieConsts
 import campagnolo.cantiero.movieapp.view.movie.viewmodel.IMovieClickListener
 import campagnolo.cantiero.movieapp.view.movie.viewmodel.IMovieLongClickListener
 import campagnolo.cantiero.movieapp.view.movie.viewmodel.MovieAdapter
 import campagnolo.cantiero.movieapp.view.movie.viewmodel.MovieViewModel
-import campagnolo.cantiero.movieapp.databinding.ActivityMovieBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MovieActivity : AppCompatActivity(), IMovieClickListener, IMovieLongClickListener {
-
-    private lateinit var binding: ActivityMovieBinding
+class MovieFragment : Fragment(), IMovieClickListener, IMovieLongClickListener {
+    private lateinit var binding: FragmentMovieBinding
     private val viewModel: MovieViewModel by viewModel()
     lateinit var adapter: MovieAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        binding = ActivityMovieBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
-
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentMovieBinding.inflate(layoutInflater)
         adapter = MovieAdapter(this, this)
+
+        binding.recyclerMovies.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerMovies.adapter = adapter
 
         setupObservers()
         setupListeners()
 
-        binding.recyclerMovies.layoutManager = LinearLayoutManager(this)
-        binding.recyclerMovies.adapter = adapter
+        return binding.root
     }
 
     private fun setupObservers() {
-        viewModel.moviesLiveData.observe(this, Observer {
+        viewModel.moviesLiveData.observe(viewLifecycleOwner, Observer {
             it.let { movies ->
                 adapter.setMovies(movies)
             }
         })
 
-        viewModel.apiLiveData.observe(this, Observer {
+        viewModel.apiLiveData.observe(viewLifecycleOwner, Observer {
             it.let { message ->
                 if (!message.isNullOrEmpty()) {
-                    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
                 }
             }
         })
     }
 
     private fun setupListeners() {
-        binding.fab.setOnClickListener { add() }
-
         binding.edSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
@@ -79,7 +78,6 @@ class MovieActivity : AppCompatActivity(), IMovieClickListener, IMovieLongClickL
                     viewModel.getByName(s.toString())
                 }
             }
-
         })
 
         // swipe delete
@@ -103,13 +101,8 @@ class MovieActivity : AppCompatActivity(), IMovieClickListener, IMovieLongClickL
         }).attachToRecyclerView(binding.recyclerMovies)
     }
 
-    private fun add() {
-        val intent = Intent(this@MovieActivity, MovieDetailsActivity::class.java)
-        startActivity(intent)
-    }
-
     private fun edit(movie: Movie) {
-        val intent = Intent(this@MovieActivity, MovieDetailsActivity::class.java)
+        val intent = Intent(requireContext(), MovieDetailsActivity::class.java)
         val bundle = Bundle()
 
         bundle.putInt(MovieConsts.ID, movie.id)
@@ -123,7 +116,8 @@ class MovieActivity : AppCompatActivity(), IMovieClickListener, IMovieLongClickL
     }
 
     private fun remove(movie: Movie, swiped: Boolean = false) {
-        val builder = AlertDialog.Builder(this@MovieActivity)
+        val builder = AlertDialog.Builder(requireContext())
+
         builder.setMessage("Tem certeza da exclusão?").setCancelable(false)
             .setPositiveButton("Dale!") { _, _ ->
                 viewModel.remove(movie)
@@ -131,8 +125,7 @@ class MovieActivity : AppCompatActivity(), IMovieClickListener, IMovieLongClickL
             }.setNegativeButton("Nem") { dialog, _ ->
                 dialog.dismiss()
 
-                if (swiped)
-                    viewModel.getAll()
+                if (swiped) viewModel.getAll()
             }
         val alert = builder.create()
         alert.show()
@@ -150,34 +143,5 @@ class MovieActivity : AppCompatActivity(), IMovieClickListener, IMovieLongClickL
     override fun onResume() {
         super.onResume()
         viewModel.getAll()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_request_movies -> {
-                val builder = AlertDialog.Builder(this@MovieActivity)
-                builder.setMessage("Isso excluirá todos os filmes cadastrados e adicionará novos, deseja continuar?").setCancelable(false)
-                    .setPositiveButton("Dale!") { _, _ ->
-                        viewModel.getMoviesAPI()
-                    }.setNegativeButton("Nem") { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                val alert = builder.create()
-                alert.show()
-
-                true
-            }
-
-            R.id.action_about -> {
-                true
-            }
-
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 }

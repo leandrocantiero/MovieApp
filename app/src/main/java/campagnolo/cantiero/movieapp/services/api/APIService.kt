@@ -1,6 +1,8 @@
 package campagnolo.cantiero.movieapp.services.api
 
+import campagnolo.cantiero.movieapp.services.api.services.BookService
 import campagnolo.cantiero.movieapp.services.api.services.MovieService
+import campagnolo.cantiero.movieapp.utils.ApiConsts
 import campagnolo.cantiero.movieapp.utils.MovieConsts
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
@@ -18,7 +20,7 @@ object APIService {
             .addInterceptor { chain ->
                 val request = chain.request()
                 val url = request.url
-                val newUrl = url.newBuilder().addQueryParameter("api-key", MovieConsts.API_KEY).build()
+                val newUrl = url.newBuilder().addQueryParameter("api-key", ApiConsts.API_KEY).build()
                 val newRequest = request.newBuilder().url(newUrl).build()
 
                 chain.proceed(newRequest.newBuilder().addHeader("Content-Type", "application/json").build())
@@ -27,11 +29,13 @@ object APIService {
             .build()
 
         return Retrofit.Builder()
-            .baseUrl(MovieConsts.BASE_URL)
+            .baseUrl(ApiConsts.BASE_URL)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create(Gson()))
             .build()
     }
 
     val movieService: MovieService = initRetrofit().create(MovieService::class.java)
+
+    val bookService: BookService = initRetrofit().create(BookService::class.java)
 }

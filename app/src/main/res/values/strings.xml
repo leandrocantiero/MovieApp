@@ -15,7 +15,20 @@
     <string name="txMovieName">Nome do filme</string>
     <string name="txMovieDescription">Descrição do filme</string>
     <string name="actions_save">Salvar</string>
-    <string name="search">Buscar filme</string>
+    <string name="search_movies">Buscar filmes</string>
+    <string name="search_books">Buscar livros</string>
     <string name="movie_image">URL da imagem</string>
     <string name="action_request_movies">Buscar filmes da API</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="open">Abrir</string>
+    <string name="close">Fechar</string>
+    <string name="menu_movies">Filmes</string>
+    <string name="menu_book">Livros</string>
+    <string name="book_title">Título</string>
+    <string name="book_author">Autor</string>
+    <string name="book_description">Descrição</string>
+    <string name="action_request_books">Buscar livros da API</string>
+    <string name="book_amazon_url">URL da Amazon</string>
+    <string name="book_amazon_url_link">Ir para Amazon</string>
 </resources>

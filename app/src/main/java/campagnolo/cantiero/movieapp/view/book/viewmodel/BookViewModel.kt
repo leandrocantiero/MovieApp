@@ -1,37 +1,42 @@
-package campagnolo.cantiero.movieapp.view.movie.viewmodel
+package campagnolo.cantiero.movieapp.view.book.viewmodel
 
-import android.app.Dialog
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import campagnolo.cantiero.movieapp.services.data.entity.Movie
+import campagnolo.cantiero.movieapp.services.data.entity.Book
 import campagnolo.cantiero.movieapp.services.api.listener.ApiListener
-import campagnolo.cantiero.movieapp.services.data.repository.MovieRepository
+import campagnolo.cantiero.movieapp.services.data.repository.BookRepository
 import kotlinx.coroutines.launch
 
-class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
-    private var mMoviesLiveData: MutableLiveData<List<Movie>> = MutableLiveData()
-    var moviesLiveData: LiveData<List<Movie>> = mMoviesLiveData
+class BookViewModel(private val repository: BookRepository) : ViewModel() {
+    private val mBooksLiveData = MutableLiveData<List<Book>>()
+    var booksLiveData: LiveData<List<Book>> = mBooksLiveData
 
     private var mApiLiveData: MutableLiveData<String?> = MutableLiveData()
     var apiLiveData: LiveData<String?> = mApiLiveData
 
+    fun save(book: Book) {
+        viewModelScope.launch {
+            repository.save(book)
+        }
+    }
+
     fun getAll() {
         viewModelScope.launch {
-            mMoviesLiveData.value = repository.getAll()
+            mBooksLiveData.value = repository.getAll()
         }
     }
 
-    fun getByName(name: String) {
+    fun getByTitle(title: String) {
         viewModelScope.launch {
-            mMoviesLiveData.value = repository.getByName(name)
+            mBooksLiveData.value = repository.getByTitle(title)
         }
     }
 
-    fun save(movie: Movie) {
+    fun remove(book: Book) {
         viewModelScope.launch {
-            repository.save(movie)
+            repository.remove(book)
         }
     }
 
@@ -44,12 +49,7 @@ class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
             override fun onSuccess() {
                 getAll()
             }
-        })
-    }
 
-    fun remove(movie: Movie) {
-        viewModelScope.launch {
-            repository.remove(movie)
-        }
+        })
     }
 }

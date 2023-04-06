@@ -1,40 +1,43 @@
-package campagnolo.cantiero.movieapp.services.repository
+package campagnolo.cantiero.movieapp.services.data.repository
 
 import android.content.Context
-import campagnolo.cantiero.movieapp.model.AppDatabase
-import campagnolo.cantiero.movieapp.model.api.MovieBodyResponse
-import campagnolo.cantiero.movieapp.model.Movie
+import campagnolo.cantiero.movieapp.services.data.AppDatabase
+import campagnolo.cantiero.movieapp.services.api.model.MovieBodyResponse
+import campagnolo.cantiero.movieapp.services.data.entity.Movie
 import campagnolo.cantiero.movieapp.services.api.APIService
-import campagnolo.cantiero.movieapp.services.api.listener.MovieListener
+import campagnolo.cantiero.movieapp.services.api.listener.ApiListener
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class MovieRepository(val context: Context) : IMovieRepository {
-    private val movieDAO = AppDatabase.getDatabase(context).movieDao()
+    private val movieDao = AppDatabase.getDatabase(context).movieDao()
 
     override suspend fun save(movie: Movie) {
-        return movieDAO.save(movie)
+        return movieDao.save(movie)
     }
 
     override suspend fun save(movies: List<Movie>) {
-        return movieDAO.save(movies)
+        return movieDao.save(movies)
     }
 
     override suspend fun getAll(): List<Movie> {
-        return movieDAO.getAll()
+        return movieDao.getAll()
     }
 
     override suspend fun getByName(name: String): List<Movie> {
         val search = "%${name}%"
-        return movieDAO.getByName(search)
+        return movieDao.getByName(search)
     }
 
     override suspend fun remove(movie: Movie) {
-        return movieDAO.remove(movie)
+        return movieDao.remove(movie)
     }
 
-    override suspend fun getAllFromApi(listener: MovieListener) {
+    override fun getAllFromApi(listener: ApiListener) {
         APIService.movieService.getMovies().enqueue(object : Callback<MovieBodyResponse> {
             override fun onResponse(
                 call: Call<MovieBodyResponse>, response: Response<MovieBodyResponse>
@@ -52,9 +55,11 @@ class MovieRepository(val context: Context) : IMovieRepository {
                         movies.add(movie)
                     }
 
-                    movieDAO.removeAll()
-                    movieDAO.save(movies)
-                    listener.onSuccess()
+                    CoroutineScope(Dispatchers.IO).launch {
+                        movieDao.removeAll()
+                        movieDao.save(movies)
+                        listener.onSuccess()
+                    }
                 } else {
                     listener.onFail("Não foi possível completar a operação")
                 }

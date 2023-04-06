@@ -10,10 +10,8 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import campagnolo.cantiero.movieapp.model.Movie
+import campagnolo.cantiero.movieapp.services.data.entity.Movie
 import campagnolo.cantiero.movieapp.R
-import campagnolo.cantiero.movieapp.databinding.ActivityMovieBinding
 import campagnolo.cantiero.movieapp.utils.MovieConsts
 import campagnolo.cantiero.movieapp.view.movie.viewmodel.MovieViewModel
 import campagnolo.cantiero.movieapp.databinding.ActivityMovieDetailsBinding
@@ -108,7 +106,7 @@ class MovieDetailsActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_movie_details, menu)
+        menuInflater.inflate(R.menu.menu_details, menu)
         return true
     }
 

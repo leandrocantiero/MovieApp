@@ -1,4 +1,4 @@
-package campagnolo.cantiero.movieapp.model.api
+package campagnolo.cantiero.movieapp.services.api.model
 
 class MovieBodyResponse(
     val results: List<MovieResultResponse>

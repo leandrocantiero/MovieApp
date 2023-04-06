@@ -1,11 +1,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="campagnolo.cantiero.movieapp.view.movie.MovieActivity">
+    tools:context="campagnolo.cantiero.movieapp.view.MainActivity">
     <item
         android:id="@+id/action_request_movies"
         android:orderInCategory="100"
         android:title="@string/action_request_movies"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_request_books"
+        android:orderInCategory="100"
+        android:title="@string/action_request_books"
         app:showAsAction="never" />
 
     <item

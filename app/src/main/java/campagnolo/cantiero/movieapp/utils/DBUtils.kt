@@ -1,8 +1,8 @@
 package campagnolo.cantiero.movieapp.utils
 
-import campagnolo.cantiero.movieapp.model.AppDatabase
-import campagnolo.cantiero.movieapp.model.Movie
-import campagnolo.cantiero.movieapp.services.dao.MovieDAO
+import campagnolo.cantiero.movieapp.services.data.AppDatabase
+import campagnolo.cantiero.movieapp.services.data.entity.Movie
+import campagnolo.cantiero.movieapp.services.data.dao.MovieDAO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

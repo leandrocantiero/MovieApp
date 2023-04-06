@@ -3,7 +3,7 @@ package campagnolo.cantiero.movieapp.view.movie.viewmodel
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import campagnolo.cantiero.movieapp.model.Movie
+import campagnolo.cantiero.movieapp.services.data.entity.Movie
 import campagnolo.cantiero.movieapp.R
 import campagnolo.cantiero.movieapp.utils.MovieConsts
 import campagnolo.cantiero.movieapp.databinding.MovieItemBinding
